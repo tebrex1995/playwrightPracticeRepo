@@ -26,4 +26,7 @@ export class Dashboard {
       await this.page.waitForTimeout(3000);
     }
   }
+  async awaitEvent() {
+    return this.page.waitForTimeout(3000);
+  }
 }

@@ -4,14 +4,16 @@ import { PAGE_TEXT } from '../fixtures/pageText';
 import { RegisterPage } from '../POM/module/ui/registerPage';
 import { VALID_USER } from '../fixtures/userData';
 import { Common } from '../POM/module/ui/common';
+import { Dashboard } from '../POM/module/ui/dashboard';
 
-let registerPage, common;
+let registerPage, common, dashboard;
 
 test.describe('Register test cases', () => {
   test.beforeEach('Visit register page', async ({ page }) => {
     //Instantiate class
     registerPage = new RegisterPage(page);
     common = new Common(page);
+    dashboard = new Dashboard(page);
     await page.goto(`${ENDPOINTS['REGISTER_ENDPOINT']}`);
     await expect(page.getByText(PAGE_TEXT['H1_REGISTER'])).toBeVisible();
   });
@@ -24,6 +26,7 @@ test.describe('Register test cases', () => {
       VALID_USER['password']
     );
 
+    await dashboard.awaitEvent();
     await expect(
       page.locator(common['dashboardHeader'], {
         hasText: PAGE_TEXT['DASHBOARD_HEADER'],

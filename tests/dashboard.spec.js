@@ -22,7 +22,7 @@ test.describe('Add to cart tests', () => {
     );
   });
 
-  test.only('Add products to cart', async ({ page }) => {
+  test('Add products to cart', async ({ page }) => {
     await dashboard.navigateToPage(4);
     await dashboard.addProductToCart();
     await expect(page.locator(dashboard.cartButton).first()).toHaveText('1');
@@ -38,11 +38,10 @@ test.describe('Add to cart tests', () => {
   });
 
   test.afterEach('Clear cart', async ({ page }) => {
-    const cartButton = await page.locator(dashboard.cartButton).first();
-    const clearBtn = await page.locator(dashboard.clearCart);
+    const cartButton = page.locator(dashboard.cartButton).first();
+    const clearBtn = page.locator(dashboard.clearCart);
     await cartButton.click();
     await clearBtn.click();
-    await page.waitForTimeout(3000);
-    await expect(cartButton).toHaveText('0');
+    await dashboard.awaitEvent();
   });
 });

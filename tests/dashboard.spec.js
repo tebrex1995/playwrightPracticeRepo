@@ -22,10 +22,19 @@ test.describe('Add to cart tests', () => {
     );
   });
 
-  test('Add products to cart', async ({ page }) => {
+  test.only('Add products to cart', async ({ page }) => {
     await dashboard.navigateToPage(4);
     await dashboard.addProductToCart();
+    await expect(page.locator(dashboard.cartButton).first()).toHaveText('1');
+    await dashboard.navigateToPage(1);
+    await dashboard.addProductToCart();
+    await dashboard.addProductToCart();
     await expect(page.locator(dashboard.cartButton).first()).toHaveText('3');
+    await dashboard.navigateToPage(3);
+    await dashboard.addProductToCart();
+    await dashboard.addProductToCart();
+    await dashboard.addProductToCart();
+    await expect(page.locator(dashboard.cartButton).first()).toHaveText('6');
   });
 
   test.afterEach('Clear cart', async ({ page }) => {
@@ -33,6 +42,7 @@ test.describe('Add to cart tests', () => {
     const clearBtn = await page.locator(dashboard.clearCart);
     await cartButton.click();
     await clearBtn.click();
+    await page.waitForTimeout(3000);
     await expect(cartButton).toHaveText('0');
   });
 });

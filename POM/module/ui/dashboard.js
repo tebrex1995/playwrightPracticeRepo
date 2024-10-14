@@ -17,11 +17,13 @@ export class Dashboard {
       .locator(this.productCard)
       .first()
       .locator(this.addToCartBtn);
-    await firstProductCard.click();
-    await this.page.waitForTimeout(3000);
-    await firstProductCard.click();
-    await this.page.waitForTimeout(3000);
-    await firstProductCard.click();
-    await this.page.waitForTimeout(3000);
+    if (firstProductCard.isEnabled()) {
+      await firstProductCard.click();
+      await this.page.waitForTimeout(3000);
+    } else {
+      await this.navigateToPage(1);
+      await firstProductCard.click();
+      await this.page.waitForTimeout(3000);
+    }
   }
 }

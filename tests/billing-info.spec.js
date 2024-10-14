@@ -5,7 +5,7 @@ import { CustomerInfo } from '../POM/module/api/customerInfo';
 import { API_MESSAGES } from '../fixtures/pageText';
 
 let loginAPI, customerInfo, userId, authToken;
-test.describe('Change billing info with API', async () => {
+test.describe('Change billing info with API', () => {
   test.beforeEach('Login with api and store token', async ({ page }) => {
     loginAPI = new LoginAPI(page);
     //Extract data
@@ -15,9 +15,7 @@ test.describe('Change billing info with API', async () => {
     customerInfo = new CustomerInfo(page, authToken);
   });
 
-  test.only('User billing info should be updated successfully', async ({
-    page,
-  }) => {
+  test('User billing info should be updated successfully', async ({ page }) => {
     const response = await customerInfo.updateBilling(userId, UPDATE_BILLING);
     expect(response.status).toBe(API_MESSAGES['STATUS_SUCCESS']);
     expect(response.message).toBe(API_MESSAGES['BILLING_INFO_SUCCESS']);
